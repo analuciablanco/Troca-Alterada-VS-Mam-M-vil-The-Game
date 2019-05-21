@@ -5,10 +5,18 @@
 
 class Carro : public Modelo {
 public:
+	int indicePuntoTrayectoria = 0;
+	float angulo = PI / 2;
+	float anguloTrayectoria = 0;
+	float velocidad = 25;
+	float velocidadMaxima = 5;
+	float desaceleracion = 0;
+	float aceleracion = 1;
+
 	Carro();
-	void avanzar();
-	void rotar();
-	void retroceder();
+	void mover(float tiempoDiferencial);
+	void actualizar(float tiempoDiferencial, vector<vec3> trayectoria);
+	void calcularAnguloTrayectoria(vector<vec3> trayectoria);
 
 private:
 	void actualizarMatrizModelo();
