@@ -4,7 +4,7 @@
 void Carro::actualizarMatrizModelo() {
 	modelo = mat4(1.0f);
 	modelo = translate(modelo, coordenadas);
-	modelo = rotate(modelo, angulo, vec3(0.0f, 1.0f, 0.0f));
+	modelo = rotate(modelo, (float)(angulo + PI / 2), vec3(0.0f, 1.0f, 0.0f));
 }
 
 void Carro::mover(float tiempoDiferencial) {
@@ -16,10 +16,19 @@ void Carro::actualizar(float tiempoDiferencial, vector<vec3> trayectoria) {
 	actualizarMatrizModelo();
 	mover(tiempoDiferencial);
 
+	velocidad -= desaceleracion * tiempoDiferencial;
+	if (velocidad > velocidadMaxima) {
+		velocidad = velocidadMaxima;
+	}
+	else if (velocidad < 0) {
+		velocidad = 0;
+	}
+
 	if (indicePuntoTrayectoria < 2 || (indicePuntoTrayectoria < 13 && indicePuntoTrayectoria >= 10)) {
 		if (coordenadas.x >= trayectoria[indicePuntoTrayectoria + 1].x) {
 			indicePuntoTrayectoria++;
 			calcularAnguloTrayectoria(trayectoria);
+			angulo = -anguloTrayectoria;
 		}
 	}
 	else if (indicePuntoTrayectoria < 5 || (indicePuntoTrayectoria < 15 && indicePuntoTrayectoria >= 10)){
@@ -29,38 +38,48 @@ void Carro::actualizar(float tiempoDiferencial, vector<vec3> trayectoria) {
 			
 			if (indicePuntoTrayectoria == 15) {
 				anguloTrayectoria -= PI;
+				angulo = -anguloTrayectoria;
 			}
 			else {
+				angulo = anguloTrayectoria + PI / 2;
 				anguloTrayectoria = -anguloTrayectoria - PI / 2;
+				
 			}
+			
 		}
 	} 
 	else if (indicePuntoTrayectoria < 7 || (indicePuntoTrayectoria < 17 && indicePuntoTrayectoria >= 10)) {
 		if (coordenadas.x <= trayectoria[indicePuntoTrayectoria + 1].x) {
 			indicePuntoTrayectoria++;
 			calcularAnguloTrayectoria(trayectoria);
+			angulo = abs(anguloTrayectoria) + PI;
 			anguloTrayectoria -= PI;
 	
 		}
 	}
 	else if (indicePuntoTrayectoria < 10 || (indicePuntoTrayectoria < 20 && indicePuntoTrayectoria >= 10)) {
 		if (coordenadas.z >= trayectoria[indicePuntoTrayectoria + 1].z) {
-			if (indicePuntoTrayectoria == 19) {
-				indicePuntoTrayectoria = 0;
-			}
-			else {
-				indicePuntoTrayectoria++;
-			}		
+			indicePuntoTrayectoria++;		
 			calcularAnguloTrayectoria(trayectoria);
+			angulo = -anguloTrayectoria; 
 		}
+	}
+	else if (indicePuntoTrayectoria < 21) {
+		if (coordenadas.x >= trayectoria[indicePuntoTrayectoria + 1].x) {
+			cout << "Vueltas: " << ++contadorVuelta << " ";
+			if (contadorVuelta > 1) {
+				velocidad = 0;
+				ganador = true;
+			}
+			indicePuntoTrayectoria = 0;
+		}
+
 	}
 }
 
 void Carro::calcularAnguloTrayectoria(vector<vec3> trayectoria) {
 	anguloTrayectoria = atan((trayectoria[indicePuntoTrayectoria + 1].z - trayectoria[indicePuntoTrayectoria].z) /
 		(trayectoria[indicePuntoTrayectoria + 1].x - trayectoria[indicePuntoTrayectoria].x));
-	angulo += anguloTrayectoria;
-	cout << trayectoria[indicePuntoTrayectoria].x << " " << trayectoria[indicePuntoTrayectoria].z << " " << anguloTrayectoria << "\n";
 }
 
 Carro::Carro() {

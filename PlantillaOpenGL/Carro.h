@@ -6,12 +6,13 @@
 class Carro : public Modelo {
 public:
 	int indicePuntoTrayectoria = 0;
-	float angulo = PI / 2;
+	float angulo = 0;
 	float anguloTrayectoria = 0;
-	float velocidad = 25;
-	float velocidadMaxima = 5;
-	float desaceleracion = 0;
-	float aceleracion = 1;
+	float velocidad = 0;
+	float velocidadMaxima = 25;
+	float desaceleracion = 5;
+	int contadorVuelta = 0;
+	bool ganador = false;
 
 	Carro();
 	void mover(float tiempoDiferencial);
