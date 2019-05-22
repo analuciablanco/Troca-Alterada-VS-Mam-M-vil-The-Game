@@ -5,8 +5,8 @@ GLuint Shader::getID() {
 	return shaderID;
 }
 
-Shader::Shader(const char * rutaVertex,
-	const char * rutaFragment) {
+Shader::Shader(const char* rutaVertex,
+	const char* rutaFragment) {
 
 	//Guardar en variables el texto de los codigos
 	//de los shaders
@@ -123,4 +123,55 @@ void Shader::verificarVinculacion(GLuint id) {
 	if (estadoValidacion == GL_FALSE) {
 		cout << "No se pudo validar la vinculacion" << endl;
 	}
+}
+
+GLuint Shader::cargarBMP(const char* rutaBMP) {
+	unsigned char cabecera[54];
+	unsigned int posicionData;
+	unsigned int alto, ancho;
+	unsigned int tamanoImagen;
+	unsigned char* data;
+
+	FILE* archivo;
+	fopen_s(&archivo, rutaBMP, "rb");
+	if (!archivo) {
+		cout << "Archivo no se pudo leer";
+		return 0;
+	}
+	if (fread(cabecera, 1, 54, archivo) != 54) {
+		cout << "No es un archivo BMP valido";
+		return 0;
+	}
+	if (cabecera[0] != 'B' || cabecera[1] != 'M') {
+		cout << "No es un archivo BM valido";
+		return 0;
+	}
+
+	//Si llegamos aquí, el BMP si es valido :D!
+	posicionData = *(int*) & (cabecera[0x0A]);
+	tamanoImagen = *(int*) & (cabecera[0x22]);
+	ancho = *(int*) & (cabecera[0x12]);
+	alto = *(int*) & (cabecera[0x16]);
+
+	if (tamanoImagen == 0) {
+		tamanoImagen = ancho * alto * 3;
+	}
+	if (posicionData == 0) {
+		posicionData = 54;
+	}
+
+	data = new unsigned char[tamanoImagen];
+	fread(data, 1, tamanoImagen, archivo);
+	fclose(archivo);
+
+	GLuint texturaID;
+	glGenTextures(1, &texturaID);
+	glBindTexture(GL_TEXTURE_2D, texturaID);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB,
+		ancho, alto, 0, GL_BGR, GL_UNSIGNED_BYTE, data);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+	return texturaID;
 }

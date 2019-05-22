@@ -4,6 +4,7 @@
 #include <stdlib.h>
 
 #define GLEW_STATIC
+#define PI 3.14159265
 
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
@@ -22,16 +23,25 @@ public:
 	mat4 vista;
 	mat4 proyeccion;
 
-	Shader *shader;
+	Shader* shader;
 
 	GLuint vertexArrayID;
 	GLuint bufferID;
 	GLuint modeloID;
+
 	GLuint vistaID;
 	GLuint proyeccionID;
 
+	GLuint numTextura;
+	GLuint texturaID;
+	GLuint samplerImagenID;
+
+	GLuint uvBufferID;
+
+	vector<vec2> mapaUV;
+
 	Modelo();
 
-	void inicializarVertexArray(GLuint posicionID, GLuint colorID, GLuint modeloID, GLuint vistaID, GLuint proyeccionID);
+	void inicializarVertexArray(GLuint posicionID, GLuint colorID, GLuint modeloID, GLuint vistaID, GLuint proyeccionID, GLuint uvID, GLuint samplerImagenID, GLuint texturaID);
 	void dibujar(GLenum modoDibujo);
 };
