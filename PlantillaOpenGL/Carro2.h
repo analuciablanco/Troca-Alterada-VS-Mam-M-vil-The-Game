@@ -14,6 +14,9 @@ public:
 	int contadorVuelta = 0;
 	bool ganador = false;
 
+	float tamanoCarro = 1.0f;
+	vec3 coordenadas = vec3(0.0f, 0.1f, 22.0f);
+
 	Carro2();
 	void mover(float tiempoDiferencial);
 	void actualizar(float tiempoDiferencial, vector<vec3> trayectoria);
@@ -21,5 +24,5 @@ public:
 
 private:
 	void actualizarMatrizModelo();
-	vec3 coordenadas = vec3(0.0f, 0.1f, 22.0f);
+	
 };
