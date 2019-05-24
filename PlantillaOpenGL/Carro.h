@@ -13,6 +13,7 @@ public:
 	float desaceleracion = 5;
 	int contadorVuelta = 0;
 	bool ganador = false;
+	float anguloVertical = PI/2;
 
 	Carro();
 	void mover(float tiempoDiferencial);
