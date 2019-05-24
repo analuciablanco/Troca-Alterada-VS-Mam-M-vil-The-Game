@@ -157,6 +157,7 @@
     <ClInclude Include="Carro.h" />
     <ClInclude Include="Carro2.h" />
     <ClInclude Include="cuadroSemaforo.h" />
+    <ClInclude Include="Gano.h" />
     <ClInclude Include="Modelo.h" />
     <ClInclude Include="Nube.h" />
     <ClInclude Include="NubeFondo.h" />
@@ -173,6 +174,7 @@
     <ClCompile Include="Carro.cpp" />
     <ClCompile Include="Carro2.cpp" />
     <ClCompile Include="cuadroSemaforo.cpp" />
+    <ClCompile Include="Gano.cpp" />
     <ClCompile Include="Modelo.cpp" />
     <ClCompile Include="Nube.cpp" />
     <ClCompile Include="NubeFondo.cpp" />

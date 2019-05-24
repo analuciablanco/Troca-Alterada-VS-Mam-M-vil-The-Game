@@ -2,9 +2,11 @@
 #include "Carro.h"
 
 void Carro::actualizarMatrizModelo() {
+	vec3 escalaCarro = vec3(tamanoCarro);
 	modelo = mat4(1.0f);
 	modelo = translate(modelo, coordenadas);
 	modelo = rotate(modelo, (float)(angulo + PI / 2), vec3(0.0f, 1.0f, 0.0f));
+	modelo = scale(modelo, escalaCarro);
 }
 
 void Carro::mover(float tiempoDiferencial) {
