@@ -13,6 +13,7 @@ public:
 	float desaceleracion = 5;
 	int contadorVuelta = 0;
 	bool ganador = false;
+	float anguloVertical = PI / 2;
 
 	float tamanoCarro = 1.0f;
 	vec3 coordenadas = vec3(0.0f, 0.1f, 22.0f);

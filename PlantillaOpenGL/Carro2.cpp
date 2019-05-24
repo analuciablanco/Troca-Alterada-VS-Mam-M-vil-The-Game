@@ -12,6 +12,7 @@ void Carro2::actualizarMatrizModelo() {
 void Carro2::mover(float tiempoDiferencial) {
 	coordenadas.x += cos(anguloTrayectoria) * velocidad * tiempoDiferencial;
 	coordenadas.z += sin(anguloTrayectoria) * velocidad * tiempoDiferencial;
+	coordenadas.y += cos(anguloVertical) * velocidad * tiempoDiferencial;
 }
 
 void Carro2::actualizar(float tiempoDiferencial, vector<vec3> trayectoria) {
@@ -25,6 +26,18 @@ void Carro2::actualizar(float tiempoDiferencial, vector<vec3> trayectoria) {
 	else if (velocidad < 0) {
 		velocidad = 0;
 	}
+
+	if (indicePuntoTrayectoria == 3) {
+		anguloVertical = PI / 4;
+	}
+	else if (indicePuntoTrayectoria == 4) {
+		anguloVertical = PI / 2;
+	} else if (indicePuntoTrayectoria == 5) {
+		anguloVertical = PI;
+	}else if (indicePuntoTrayectoria == 6) {
+		anguloVertical = PI / 2;
+	}
+
 
 	if (indicePuntoTrayectoria < 2 || (indicePuntoTrayectoria < 13 && indicePuntoTrayectoria >= 10)) {
 		if (coordenadas.x >= trayectoria[indicePuntoTrayectoria + 1].x) {

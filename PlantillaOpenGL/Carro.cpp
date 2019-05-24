@@ -12,6 +12,7 @@ void Carro::actualizarMatrizModelo() {
 void Carro::mover(float tiempoDiferencial) {
 	coordenadas.x += cos(anguloTrayectoria) * velocidad * tiempoDiferencial;
 	coordenadas.z += sin(anguloTrayectoria) * velocidad * tiempoDiferencial;
+	coordenadas.y += cos(anguloVertical) * velocidad * tiempoDiferencial;
 }
 
 void Carro::actualizar(float tiempoDiferencial, vector<vec3> trayectoria) {
@@ -26,6 +27,18 @@ void Carro::actualizar(float tiempoDiferencial, vector<vec3> trayectoria) {
 		velocidad = 0;
 	}
 
+
+	if (indicePuntoTrayectoria == 3) {
+		anguloVertical = PI / 4;
+	}
+	else if (indicePuntoTrayectoria == 4) {
+			anguloVertical = PI / 2;
+	} else if (indicePuntoTrayectoria == 5) {
+		anguloVertical = PI;
+	} else if (indicePuntoTrayectoria == 6) {
+		anguloVertical = PI / 2;
+	}
+
 	if (indicePuntoTrayectoria < 2 || (indicePuntoTrayectoria < 13 && indicePuntoTrayectoria >= 10)) {
 		if (coordenadas.x >= trayectoria[indicePuntoTrayectoria + 1].x) {
 			indicePuntoTrayectoria++;
@@ -37,7 +50,7 @@ void Carro::actualizar(float tiempoDiferencial, vector<vec3> trayectoria) {
 		if (coordenadas.z <= trayectoria[indicePuntoTrayectoria + 1].z) {
 			indicePuntoTrayectoria++;
 			calcularAnguloTrayectoria(trayectoria);
-			
+
 			if (indicePuntoTrayectoria == 15) {
 				anguloTrayectoria -= PI;
 				angulo = -anguloTrayectoria;
@@ -56,7 +69,6 @@ void Carro::actualizar(float tiempoDiferencial, vector<vec3> trayectoria) {
 			calcularAnguloTrayectoria(trayectoria);
 			angulo = abs(anguloTrayectoria) + PI;
 			anguloTrayectoria -= PI;
-	
 		}
 	}
 	else if (indicePuntoTrayectoria < 10 || (indicePuntoTrayectoria < 20 && indicePuntoTrayectoria >= 10)) {
